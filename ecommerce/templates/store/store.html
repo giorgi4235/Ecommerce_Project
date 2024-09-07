@@ -1,0 +1,46 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+    <!-- Filter Dropdown Section -->
+    <div class="container mt-4 mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if current_category %}
+                            Filter: {{ current_category|title }}
+                        {% else %}
+                            Filter by PC Parts
+                        {% endif %}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item {% if current_category == 'cpu' %}active{% endif %}" href="{% url 'store' %}?category=cpu">CPUs</a></li>
+                        <li><a class="dropdown-item {% if current_category == 'gpu' %}active{% endif %}" href="{% url 'store' %}?category=gpu">GPUs</a></li>
+                        <li><a class="dropdown-item {% if current_category == 'motherboard' %}active{% endif %}" href="{% url 'store' %}?category=motherboard">Motherboards</a></li>
+                        <li><a class="dropdown-item {% if current_category == 'ram' %}active{% endif %}" href="{% url 'store' %}?category=ram">RAM</a></li>
+                        <li><a class="dropdown-item {% if current_category == 'storage' %}active{% endif %}" href="{% url 'store' %}?category=storage">Storage</a></li>
+                        <li><a class="dropdown-item {% if current_category == 'psu' %}active{% endif %}" href="{% url 'store' %}?category=psu">Power Supplies</a></li>
+                        <li><a class="dropdown-item {% if current_category == 'case' %}active{% endif %}" href="{% url 'store' %}?category=case">Cases</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item {% if not current_category %}active{% endif %}" href="{% url 'store' %}">All Products</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        {% for part in parts %}
+        <div class="col-lg-4 mb-4">
+            <img class="thumbnail" src="{{ part.image_url }}">
+            <div class="box-element product">
+                <h6><strong>{{ part.name }}</strong></h6>
+                <hr>
+                <button class="btn btn-outline-secondary add-btn">Add to Cart</button>
+                <a class="btn btn-outline-success">View</a>
+                <h4 style="display: inline-block;float:right;">{{ part.price|floatformat:2 }}$</h4>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
